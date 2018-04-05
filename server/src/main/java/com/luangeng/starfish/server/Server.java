@@ -9,5 +9,7 @@ public class Server {
 
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
         System.out.println("Server start");
+
+
     }
 }

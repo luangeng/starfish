@@ -21,7 +21,11 @@ public class RpcProxy implements InvocationHandler {
 
     private RpcClient client = null;
 
-    public static <T> T get(Class<?> interfaceClass) {
+    RpcProxy() {
+
+    }
+
+    public static <T> T get(String name, Class<?> interfaceClass) {
         return (T) Proxy.newProxyInstance(
                 interfaceClass.getClassLoader(),
                 new Class<?>[]{interfaceClass},
