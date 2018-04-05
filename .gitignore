@@ -1,0 +1,13 @@
+*.class
+*.jar
+*.log
+*.iml
+*.classpath
+
+
+.idea/
+log/
+target/
+
+.idea
+star-fish.*
