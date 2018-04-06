@@ -37,10 +37,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
         Class[] parameterTypes = request.getParameterTypes();
         Object[] parameters = request.getParameters();
 
-        Object o = ServiceMng.getService(classname);
-        Class clazz = o.getClass();
+        Class clazz = ServiceMng.getService(classname);
         Method method = clazz.getMethod(methodname, parameterTypes);
-        Object result = method.invoke(o, parameters);
+        Object result = method.invoke(clazz.newInstance(), parameters);
         return result;
     }
 

@@ -13,6 +13,7 @@
     <bean class="com.luangeng.starfish.common.ServiceCenter">
         <constructor-arg name="addr" value="localhost"/>
         <constructor-arg name="name" value="server1"/>
+        <constructor-arg name="port" value="8080"/>
     </bean>
 
 </beans>

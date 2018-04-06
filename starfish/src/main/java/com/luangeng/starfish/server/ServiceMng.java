@@ -9,18 +9,14 @@ import java.util.Map;
 public class ServiceMng {
 
     //所有提供的服务
-    private static Map<String, Object> serviceMap = new HashMap<>();
+    private static Map<String, Class> serviceMap = new HashMap<>();
 
-    ServiceMng(String pkg) {
-
-    }
-
-    public static Object getService(String name) {
+    public static Class getService(String name) {
         return serviceMap.get(name);
     }
 
-    public <T> void register(Class<T> t, String a) {
-
+    public static void register(String i, Class a) {
+        serviceMap.put(i, a);
     }
 
 //

@@ -27,18 +27,25 @@ public class RpcServer extends Thread {
 
     private static RpcServer server = new RpcServer();
 
+    private int port;
+
     private RpcServer() {
     }
 
-    public static void startUp() {
+    public static RpcServer getServer() {
+        return server;
+    }
+
+    public void startUp(int port) {
         if (start) {
             LOGGER.info("Server already startup.");
             return;
         }
+        server.port = port;
         server.start();
     }
 
-    private static void bind(int port) {
+    private void bind() {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup(4);
         try {
@@ -67,8 +74,7 @@ public class RpcServer extends Thread {
 
     @Override
     public void run() {
-        int port = 8080;
-        bind(port);
+        bind();
     }
 
     private static class MyChannelInitializer extends ChannelInitializer<SocketChannel> {

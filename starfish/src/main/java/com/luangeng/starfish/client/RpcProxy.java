@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -43,8 +44,8 @@ public class RpcProxy implements InvocationHandler {
         request.setParameterTypes(method.getParameterTypes());
         request.setParameters(args);
 
-        String addr = ServiceCenter.queryService(name);
-        RpcClient client = RpcClient.getConnect(addr);
+        List<String> addr = ServiceCenter.queryService(name);
+        RpcClient client = RpcClient.getConnect(addr.get(0));
         RpcResponse r = client.invoke(request);
         return r.getResult();
     }

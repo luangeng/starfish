@@ -9,10 +9,10 @@
 
     <context:component-scan base-package="com.luangeng.starfish"/>
 
-
     <bean class="com.luangeng.starfish.common.ServiceCenter">
         <constructor-arg name="addr" value="localhost"/>
         <constructor-arg name="name" value="client1"/>
+        <constructor-arg name="port" value="8081"/>
     </bean>
 
 </beans>

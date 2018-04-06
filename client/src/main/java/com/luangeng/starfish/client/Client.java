@@ -22,7 +22,7 @@ public class Client {
         System.out.println("Client start");
 
         //
-        HelloService hello = RpcProxy.get("", HelloService.class);
+        HelloService hello = RpcProxy.get("server1", HelloService.class);
 
         for (int i = 0; i < 10; i++) {
 

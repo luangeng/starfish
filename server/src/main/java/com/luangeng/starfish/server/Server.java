@@ -12,6 +12,8 @@ public class Server {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
         System.out.println("Server start");
 
+        ServiceMng.register(HelloService.class.getName(), HelloServerImpl.class);
+
         try {
             System.in.read();
         } catch (IOException e) {

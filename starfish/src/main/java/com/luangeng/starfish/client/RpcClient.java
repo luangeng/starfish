@@ -73,7 +73,7 @@ public class RpcClient {
 //
 //        }
         ChannelFuture future = bootstrap.connect(addr, 8080).sync();
-        LOGGER.info("client connect to " + addr);
+        LOGGER.info("client connect to " + addr + ":" + 8080);
         Channel c = future.channel();
 
         client.setChannel(c);

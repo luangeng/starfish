@@ -29,19 +29,22 @@ public class ServiceCenter implements Watcher {
     private String name;
     private String version;
 
-    private ServiceCenter(String addr, String name) {
-        this(addr, name, "");
+    private int port;
+
+    private ServiceCenter(String addr, String name, int port) {
+        this(addr, name, port, "");
     }
 
-    private ServiceCenter(String addr, String name, String version) {
+    private ServiceCenter(String addr, String name, int port, String version) {
         this.addr = addr;
         this.name = name;
         this.version = version;
+        this.port = port;
 
         connect();
         String ip = IPUtil.getLoaclIP();
         register(ip);
-        RpcServer.startUp();
+        RpcServer.getServer().startUp(port);
     }
 
     private void connect() {
@@ -65,11 +68,10 @@ public class ServiceCenter implements Watcher {
 
     public boolean register(String address) {
         try {
-            connect();
             if (zk.exists(APPS_PATH + "/" + name, false) == null) {
                 zk.create(APPS_PATH + "/" + name, null, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
             }
-            String path = zk.create(APPS_PATH + "/" + name + "/" + address, address.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+            String path = zk.create(APPS_PATH + "/" + name + "/" + address, address.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
             LOGGER.info("register success -> " + path);
             return true;
         } catch (InterruptedException e) {
