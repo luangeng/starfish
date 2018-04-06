@@ -1,5 +1,6 @@
 package com.luangeng.starfish.server;
 
+import com.luangeng.starfish.common.HelloService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

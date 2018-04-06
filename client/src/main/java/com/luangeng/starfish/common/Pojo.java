@@ -1,4 +1,4 @@
-package com.luangeng.starfish.client;
+package com.luangeng.starfish.common;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.luangeng.starfish.server;
+package com.luangeng.starfish.common;
 
 public interface HelloService {
 

@@ -9,9 +9,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 /**
  * Created by LG on 2017/11/26.
  */
@@ -21,16 +18,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
 
     private Channel channel;
 
-    //request Id 与 response的映射
-    private Map<Long, ResponseHolder> responseMap = new ConcurrentHashMap<Long, ResponseHolder>();
-
     @Override
     public void channelRead0(ChannelHandlerContext ctx, RpcResponse response) throws Exception {
-        ResponseHolder holder = responseMap.get(response.getId());
-        if (holder != null) {
-            responseMap.remove(response.getId());
-            holder.setResponse(response);
-        }
+        ResponseHolder.setResponse(response);
     }
 
     @Override
@@ -47,8 +37,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
     }
 
     public RpcResponse invoke(RpcRequest request) throws Exception {
-        ResponseHolder holder = new ResponseHolder();
-        responseMap.put(request.getId(), holder);
+        ResponseHolder holder = ResponseHolder.newHolder(request.getId());
         channel.writeAndFlush(request);
         return holder.getResponse();
     }
