@@ -20,7 +20,7 @@ public class HelloServerImpl implements HelloService {
         pojo.setId(pojo.getId() + 1000);
         pojo.setName(pojo.getName().toUpperCase());
         pojo.setMan(!pojo.isMan());
-        //pojo.getList().add("last");
+        ////pojo.getList().add("last");
         return pojo;
     }
 
