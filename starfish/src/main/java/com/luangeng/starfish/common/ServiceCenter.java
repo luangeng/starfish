@@ -1,10 +1,12 @@
 package com.luangeng.starfish.common;
 
+import com.luangeng.starfish.server.RpcServer;
 import org.apache.zookeeper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -39,6 +41,7 @@ public class ServiceCenter implements Watcher {
         connect();
         String ip = IPUtil.getLoaclIP();
         register(ip);
+        RpcServer.startUp();
     }
 
     private void connect() {
@@ -77,18 +80,14 @@ public class ServiceCenter implements Watcher {
         return false;
     }
 
-    public boolean unregister() {
-        return false;
-    }
-
-    public String queryService(String serviceName) throws KeeperException, InterruptedException {
+    public static List<String> queryService(String serviceName) throws KeeperException, InterruptedException {
         List<String> apps = zk.getChildren(APPS_PATH + "/" + serviceName, false);
-        if (apps.isEmpty()) {
-            return null;
+        if (apps == null) {
+            return Collections.emptyList();
         }
         //Collections.sort(apps);
-        byte[] data = zk.getData(apps.get(0), false, null);
-        return new String(data);
+        //byte[] data = zk.getData(apps.get(0), false, null);
+        return apps;
     }
 
     @Override

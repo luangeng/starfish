@@ -33,26 +33,23 @@ public class RpcClient {
 
     private EventLoopGroup group;
 
-    private String ip;
+    private String addr;
 
-    private int port;
-
-    private RpcClient(String ip, int port) {
-        this.ip = ip;
-        this.port = port;
+    private RpcClient(String addr) {
+        this.addr = addr;
     }
 
-    public static RpcClient getConnect(String host, int port) throws InterruptedException {
-        if (clientMap.containsKey(host + port)) {
-            return clientMap.get(host + port);
+    public static RpcClient getConnect(String addr) throws InterruptedException {
+        if (clientMap.containsKey(addr)) {
+            return clientMap.get(addr);
         }
-        RpcClient con = connect(host, port);
-        clientMap.put(host + port, con);
+        RpcClient con = connect(addr);
+        clientMap.put(addr, con);
         return con;
     }
 
-    private static RpcClient connect(String host, int port) throws InterruptedException {
-        RpcClient client = new RpcClient(host, port);
+    private static RpcClient connect(String addr) throws InterruptedException {
+        RpcClient client = new RpcClient(addr);
 
         EventLoopGroup group = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap();
@@ -71,8 +68,12 @@ public class RpcClient {
             }
         });
 
-        ChannelFuture future = bootstrap.connect(host, port).sync();
-        LOGGER.info("client connect to " + host + ":" + port);
+//        String port;
+//        if(addr.contains(":")){
+//
+//        }
+        ChannelFuture future = bootstrap.connect(addr, 8080).sync();
+        LOGGER.info("client connect to " + addr);
         Channel c = future.channel();
 
         client.setChannel(c);
@@ -99,19 +100,4 @@ public class RpcClient {
         this.group = group;
     }
 
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
 }

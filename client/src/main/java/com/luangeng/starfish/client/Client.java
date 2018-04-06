@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -37,11 +37,11 @@ public class Client {
             pojo.setName("luanegng" + i);
             pojo.setMan(true);
             pojo.setBirth(new Date());
-            pojo.setList(new ArrayList<String>());
-            pojo.getList().add("pojo" + i);
+            pojo.setList(Collections.singletonList("pojo" + i));
+
             Pojo p2 = hello.test(pojo);
             LOGGER.info(p2.toString());
-            LOGGER.info(" ");
+            LOGGER.info("");
         }
 
     }

@@ -2,6 +2,7 @@ package com.luangeng.starfish.client;
 
 import com.luangeng.starfish.common.RpcRequest;
 import com.luangeng.starfish.common.RpcResponse;
+import com.luangeng.starfish.common.ServiceCenter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,17 +20,17 @@ public class RpcProxy implements InvocationHandler {
 
     private static AtomicLong id = new AtomicLong(0);
 
-    private RpcClient client = null;
+    private String name;
 
-    RpcProxy() {
-
+    RpcProxy(String name) {
+        this.name = name;
     }
 
     public static <T> T get(String name, Class<?> interfaceClass) {
         return (T) Proxy.newProxyInstance(
                 interfaceClass.getClassLoader(),
                 new Class<?>[]{interfaceClass},
-                new RpcProxy()
+                new RpcProxy(name)
         );
     }
 
@@ -42,16 +43,10 @@ public class RpcProxy implements InvocationHandler {
         request.setParameterTypes(method.getParameterTypes());
         request.setParameters(args);
 
-        //
-
-        if (client == null) {
-            client = RpcClient.getConnect("localhost", 8080);
-        }
+        String addr = ServiceCenter.queryService(name);
+        RpcClient client = RpcClient.getConnect(addr);
         RpcResponse r = client.invoke(request);
         return r.getResult();
     }
 
-    public void close() {
-        this.client.closeConnect();
-    }
 }

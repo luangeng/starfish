@@ -19,16 +19,20 @@ public class ServiceMng {
         return serviceMap.get(name);
     }
 
-    public void setApplicationContext(String a) {
-        Map<String, Object> beansMap = null;//context.getBeansWithAnnotation(RpcClass.class);
-        for (Map.Entry entry : beansMap.entrySet()) {
-            String interfaceName = entry.getValue().getClass().getAnnotation(RpcClass.class).value().getName();
-            serviceMap.put(interfaceName, entry.getValue());
-        }
-        if (!serviceMap.isEmpty()) {
-            //ServiceCenter.register("DemoService", IPUtil.getLoaclIP()+"8080");
-            RpcServer.startUp();
-        }
+    public <T> void register(Class<T> t, String a) {
+
     }
+
+//
+//    public void setApplicationContext(String a) {
+//        Map<String, Object> beansMap = context.getBeansWithAnnotation(RpcClass.class);
+//        for (Map.Entry entry : beansMap.entrySet()) {
+//            String interfaceName = entry.getValue().getClass().getAnnotation(RpcClass.class).value().getName();
+//            serviceMap.put(interfaceName, entry.getValue());
+//        }
+//        if (!serviceMap.isEmpty()) {
+//            RpcServer.startUp();
+//        }
+//    }
 
 }
